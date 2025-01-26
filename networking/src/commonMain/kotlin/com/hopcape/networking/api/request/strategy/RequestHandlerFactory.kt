@@ -17,7 +17,7 @@ import io.ktor.client.HttpClient
  *
  * ## How it Works:
  * - The factory uses the HTTP method type (`HttpMethod.GET` or `HttpMethod.POST`) to determine which handler to create.
- * - It creates a `com.hopcape.networking.api.request.handlers.GetRequestHandlingStrategy` for `GET` requests and a `PostRequestHandlerStrategy` for `POST` requests.
+ * - It creates a `com.hopcape.networking.api.request.handlers.GetRequestHandlingStrategy` for `GET` requests and a `com.hopcape.networking.api.request.handlers.PostRequestHandlerStrategy` for `POST` requests.
  * - If an unsupported HTTP method is passed to the `create` method, it throws an `IllegalArgumentException`.
  *
  * ## Example Usage:

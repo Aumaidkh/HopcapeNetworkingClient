@@ -29,7 +29,7 @@ class RequestHandlerFactoryTest {
     fun `test creating POST request handler`() {
         val postHandler = factory.create(HttpMethod.POST)
 
-        assertTrue(postHandler is PostRequestHandlerStrategy, "Expected PostRequestHandlerStrategy")
+        assertTrue(postHandler is PostRequestHandlerStrategy, "Expected com.hopcape.networking.api.request.handlers.PostRequestHandlerStrategy")
     }
 
     @Test
