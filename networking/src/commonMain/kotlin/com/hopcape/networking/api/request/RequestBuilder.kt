@@ -1,6 +1,7 @@
 package com.hopcape.networking.api.request
 
 import com.hopcape.networking.api.Url
+import com.hopcape.networking.api.request.methods.HttpMethod
 
 class RequestBuilder {
     private var request: NetworkRequest = NetworkRequest()

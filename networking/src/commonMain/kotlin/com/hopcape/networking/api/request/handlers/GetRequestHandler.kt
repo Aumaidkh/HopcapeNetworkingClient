@@ -1,8 +1,7 @@
 package com.hopcape.networking.api.request.handlers
 
 import com.hopcape.networking.api.request.NetworkRequest
-import com.hopcape.networking.api.request.RequestHandlingStrategy
-import com.hopcape.networking.api.response.NetworkResponse
+import com.hopcape.networking.api.request.strategy.RequestHandlingStrategy
 import com.hopcape.networking.api.utils.safeApiCall
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get

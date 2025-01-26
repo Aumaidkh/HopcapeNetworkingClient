@@ -1,5 +1,7 @@
 package com.hopcape.networking.api.request
 
+import com.hopcape.networking.api.request.methods.HttpMethod
+
 data class NetworkRequest(
     val url: String = "",
     val method: HttpMethod = HttpMethod.GET,

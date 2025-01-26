@@ -3,7 +3,7 @@ package com.hopcape.networking.api.client
 import com.hopcape.networking.api.config.Configuration
 import com.hopcape.networking.api.request.NetworkRequest
 import com.hopcape.networking.api.request.RequestBuilder
-import com.hopcape.networking.api.request.RequestHandlerFactory
+import com.hopcape.networking.api.request.strategy.RequestHandlerFactory
 import io.ktor.client.HttpClient
 import kotlin.reflect.KClass
 
