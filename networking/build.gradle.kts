@@ -1,13 +1,15 @@
+import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.mokkery)
     `maven-publish`
+    alias(libs.plugins.vaniktechMavenPublish)
+    alias(libs.plugins.dokka)
 }
 
-group = "com.hopcape.networking"
-version = "1.0.1_APLHA01"
 kotlin {
     androidTarget {
         publishLibraryVariants("debug","release")
@@ -58,9 +60,43 @@ android {
     }
 }
 
+mavenPublishing {
+    coordinates(
+        groupId = "io.github.aumaidkh",
+        artifactId = "networking-client",
+        version = "1.0.0-ALPHA_01"
+    )
 
-publishing {
-    repositories {
-        mavenLocal()
+    pom{
+        name.set("Networking Library")
+        description.set("A Networking Library which can be used in Android and iOS apps for making api calls")
+        inceptionYear.set("2025")
+        url.set("https://github.com/Aumaidkh/HopcapeNetworkingClient")
+
+        licenses {
+            license{
+                name.set("MIT")
+                url.set("https://opensource.org/licenses/MIT")
+            }
+        }
+
+        developers {
+            developer{
+                id.set("Aumaidkh")
+                name.set("Murtaza Khursheed")
+                email.set("aumaidm.m.c@gmail.com")
+            }
+        }
+
+        scm {
+            url.set("https://github.com/Aumaidkh/HopcapeNetworkingClient")
+        }
+
     }
+
+    // Configure publishing to maven central
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    // Enable gpg signing for all publications
+    signAllPublications()
 }
