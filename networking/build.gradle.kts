@@ -75,7 +75,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.aumaidkh",
         artifactId = "networking-client",
-        version = "1.0.0-ALPHA_01"
+        version = "1.0.0-ALPHA_02"
     )
 
     pom{
