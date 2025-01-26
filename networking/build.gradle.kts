@@ -8,6 +8,7 @@ plugins {
     `maven-publish`
     alias(libs.plugins.vaniktechMavenPublish)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -45,8 +46,18 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
+
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.ktor.client.mock)
+            implementation(libs.kotlinx.serializtion)
+        }
     }
+
 }
+
+
 
 android {
     namespace = "com.hopcape.networking"
@@ -64,7 +75,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.aumaidkh",
         artifactId = "networking-client",
-        version = "1.0.0-ALPHA_01"
+        version = "1.0.0-ALPHA_02"
     )
 
     pom{
