@@ -6,7 +6,6 @@ import com.hopcape.networking.api.mocks.mockEngine
 import com.hopcape.networking.api.request.handlers.GetRequestHandlingStrategy
 import com.hopcape.networking.api.request.handlers.PostRequestHandlerStrategy
 import com.hopcape.networking.api.request.methods.HttpMethod
-import dev.mokkery.mock
 import io.ktor.client.HttpClient
 import kotlin.test.Test
 import kotlin.test.assertFailsWith

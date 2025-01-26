@@ -16,7 +16,7 @@ import io.ktor.client.HttpClient
  * other HTTP methods if needed.
  *
  * ## How it Works:
- * - The factory uses the HTTP method type (`HttpMethod.GET` or `HttpMethod.POST`) to determine which handler to create.
+ * - The factory uses the HTTP method type (`com.hopcape.networking.api.request.methods.HttpMethod.GET` or `com.hopcape.networking.api.request.methods.HttpMethod.POST`) to determine which handler to create.
  * - It creates a `com.hopcape.networking.api.request.handlers.GetRequestHandlingStrategy` for `GET` requests and a `com.hopcape.networking.api.request.handlers.PostRequestHandlerStrategy` for `POST` requests.
  * - If an unsupported HTTP method is passed to the `create` method, it throws an `IllegalArgumentException`.
  *
@@ -29,10 +29,10 @@ import io.ktor.client.HttpClient
  * val requestHandlerFactory = com.hopcape.networking.api.request.strategy.RequestHandlerFactory(client, configuration)
  *
  * // Create a GET request handler
- * val getHandler = requestHandlerFactory.create(HttpMethod.GET)
+ * val getHandler = requestHandlerFactory.create(com.hopcape.networking.api.request.methods.HttpMethod.GET)
  *
  * // Create a POST request handler
- * val postHandler = requestHandlerFactory.create(HttpMethod.POST)
+ * val postHandler = requestHandlerFactory.create(com.hopcape.networking.api.request.methods.HttpMethod.POST)
  * ```
  *
  * @author

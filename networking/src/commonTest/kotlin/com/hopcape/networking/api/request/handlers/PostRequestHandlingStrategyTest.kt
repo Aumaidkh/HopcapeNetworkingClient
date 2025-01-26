@@ -2,10 +2,8 @@ package com.hopcape.networking.api.request.handlers
 
 import com.hopcape.networking.api.mocks.MockSuccessResponse
 import com.hopcape.networking.api.mocks.createMockClient
-import com.hopcape.networking.api.mocks.mockEngine
 import com.hopcape.networking.api.request.NetworkRequest
 import com.hopcape.networking.api.request.methods.HttpMethod
-import io.ktor.client.HttpClient
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
