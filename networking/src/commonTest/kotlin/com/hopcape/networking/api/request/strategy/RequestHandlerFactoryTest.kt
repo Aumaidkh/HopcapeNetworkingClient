@@ -22,7 +22,7 @@ class RequestHandlerFactoryTest {
     fun `test creating GET request handler`() {
         val getHandler = factory.create(HttpMethod.GET)
 
-        assertTrue(getHandler is GetRequestHandlingStrategy, "Expected GetRequestHandlingStrategy")
+        assertTrue(getHandler is GetRequestHandlingStrategy, "Expected com.hopcape.networking.api.request.handlers.GetRequestHandlingStrategy")
     }
 
     @Test
