@@ -1,0 +1,90 @@
+name: Networking Library CI Pipelines
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/Checkout@v4
+
+      - name: Run Lint Check
+        run: ./gradlew lintDebug --stacktrace
+
+      - name: Upload test Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint_report
+          path: networking/build/reports/lint-results-debug.html
+
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Tests
+        run: ./gradlew test --stacktrace
+
+      - name: Upload test Report
+        uses: actions/upload-artifact@v4
+
+        with:
+          name: unit_test_report
+          path: networking/build/reports/tests/testDebugUnitTest
+
+  publish:
+    if: github.event_name == 'push'
+    needs: [unit-test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create gradle.properties dynamically
+        run: |
+          echo "mavenCentralUsername=${{ secrets.MAVEN_CENTRAL_USERNAME }}" >> gradle.properties
+          echo "mavenCentralPassword=${{ secrets.MAVEN_CENTRAL_PASSPHRASE }}" >> gradle.properties
+          echo "signing.keyId=${{ secrets.SIGNING_KEY }}" >> gradle.properties
+          echo "signing.password=${{ secrets.SIGNING_KEY_PASSWORD }}" >> gradle.properties
+          echo "signing.secretKeyRingFile=$HOME/my_secring.gpg" >> gradle.properties
+
+      - name: Write GPG Key to file
+        run: |
+          # Ensure .gnupg directory exists
+          mkdir -p $HOME/.gnupg
+          
+          # Use a safe method to write the key content to a file
+          echo "${{ secrets.GPG_KEY }}" | base64 --decode > $HOME/my_secring.gpg
+          
+          # Set appropriate permissions for the keyring
+          chmod 600 $HOME/my_secring.gpg
+
+      - name: Publish to maven
+        run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
+
+  documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generating documentation
+        run: ./gradlew dokkaHtml
+
+      - name: Upload Documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: networking-library-documentation
+          path: networking/build/documentation/html
+
+
+
