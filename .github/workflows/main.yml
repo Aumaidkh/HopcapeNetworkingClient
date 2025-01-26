@@ -51,6 +51,8 @@ jobs:
 
       - name: Create gradle.properties dynamically
         run: |
+          # Ensure there's a new line at the start of gradle.properties
+          echo "" >> gradle.properties  # Adds a new line before appending
           echo "mavenCentralUsername=${{ secrets.MAVEN_CENTRAL_USERNAME }}" >> gradle.properties
           echo "mavenCentralPassword=${{ secrets.MAVEN_CENTRAL_PASSPHRASE }}" >> gradle.properties
           echo "signing.keyId=${{ secrets.SIGNING_KEY }}" >> gradle.properties
