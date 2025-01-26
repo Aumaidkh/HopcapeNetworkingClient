@@ -15,7 +15,7 @@ class RequestHandlerFactoryTest {
 
     private val client: HttpClient = HttpClient(mockEngine)
     private val configuration: Configuration = mockConfiguration
-    private val factory = RequestHandlerFactory(client, configuration)
+    private val factory = RequestHandlerFactoryImpl(client, configuration)
 
     @Test
     fun `test creating GET request handler`() {

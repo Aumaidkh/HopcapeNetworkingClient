@@ -4,8 +4,6 @@ import com.hopcape.networking.api.client.KtorClientNetworkingClient
 import com.hopcape.networking.api.client.NetworkingClient
 import com.hopcape.networking.api.config.Configuration
 import com.hopcape.networking.api.mocks.mockConfiguration
-import dev.mokkery.mock
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNotNull

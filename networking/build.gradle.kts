@@ -54,7 +54,10 @@ kotlin {
             implementation(libs.kotlinx.serializtion)
         }
     }
+
 }
+
+
 
 android {
     namespace = "com.hopcape.networking"
