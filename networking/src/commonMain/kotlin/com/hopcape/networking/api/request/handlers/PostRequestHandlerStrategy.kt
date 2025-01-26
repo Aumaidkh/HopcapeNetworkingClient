@@ -20,7 +20,7 @@ import kotlin.reflect.KClass
  * and query parameters if provided. The response is deserialized into the specified type `T` using Kotlinx Serialization.
  *
  * ## How it Works:
- * - The `handleRequest` method takes a `NetworkRequest` and the target type `T`.
+ * - The `handleRequest` method takes a `com.hopcape.networking.api.request.NetworkRequest` and the target type `T`.
  * - It performs a POST request using Ktor's `HttpClient` and processes the response.
  * - The response body is deserialized into the specified type `T` using the appropriate serializer.
  *

@@ -16,7 +16,7 @@ import kotlin.reflect.KClass
  * A strategy implementation for handling GET network requests.
  *
  * This class is responsible for handling HTTP GET requests using the provided `HttpClient`. It supports setting request headers
- * and query parameters as per the `NetworkRequest` provided. The response is expected to be a JSON string, which is then
+ * and query parameters as per the `com.hopcape.networking.api.request.NetworkRequest` provided. The response is expected to be a JSON string, which is then
  * deserialized into the specified type `T`.
  *
  * ## Example Usage:
@@ -41,7 +41,7 @@ internal class GetRequestHandlingStrategy(
      * This method makes the GET request, appends the necessary headers and parameters, and processes the response to
      * deserialize it into the specified type `T`.
      *
-     * @param request The `NetworkRequest` containing the URL, headers, and parameters for the GET request.
+     * @param request The `com.hopcape.networking.api.request.NetworkRequest` containing the URL, headers, and parameters for the GET request.
      * @param type The type `KClass<T>` that specifies the expected response type.
      * @return A `Result` containing the deserialized response of type `T`.
      */
