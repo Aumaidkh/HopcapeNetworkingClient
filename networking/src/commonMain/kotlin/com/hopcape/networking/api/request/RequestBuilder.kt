@@ -73,7 +73,7 @@ class RequestBuilder {
      * @return The updated `RequestBuilder` instance.
      */
     fun setBody(body: String): RequestBuilder {
-        request = request.copy(body = body)
+        request = request.copy(requestBody = body)
         return this
     }
 

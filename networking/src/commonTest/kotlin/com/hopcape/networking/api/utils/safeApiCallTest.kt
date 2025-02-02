@@ -58,6 +58,6 @@ class SafeApiCallTest {
         } returns Unit
 
         safeApiCall(mockApiCall, mockLogger)
-        verify{mockLogger.invoke("API Failure")}
+        verify{mockLogger.invoke("API call failed: ${exception.message}")}
     }
 }

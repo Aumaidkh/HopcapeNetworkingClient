@@ -32,7 +32,7 @@ class RequestBuilderTest {
     fun `test setBody should set body correctly`() {
         val body = "request body"
         val request = RequestBuilder().setBody(body).build()
-        assertEquals(body, request.body)
+        assertEquals(body, request.requestBody)
     }
 
     @Test
@@ -51,6 +51,6 @@ class RequestBuilderTest {
         assertEquals("https://api.example.com", request.url)
         assertEquals(HttpMethod.GET, request.method)
         assertEquals(headers, request.requestHeaders)
-        assertEquals(body, request.body)
+        assertEquals(body, request.requestBody)
     }
 }

@@ -6,6 +6,7 @@ import com.hopcape.networking.api.utils.safeApiCall
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.header
+import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
@@ -64,6 +65,10 @@ internal class GetRequestHandlingStrategy(
                             url {
                                 parameters.append(key, value)
                             }
+                        }
+                        // Add body
+                        requestBody?.let {
+                            setBody(it)
                         }
                     }.bodyAsText()
                     // Deserialize response to type `T`
