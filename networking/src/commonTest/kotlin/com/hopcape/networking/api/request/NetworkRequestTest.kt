@@ -13,7 +13,7 @@ class NetworkRequestTest {
         assertEquals("", request.url)
         assertEquals(HttpMethod.GET, request.method)
         assertNull(request.requestHeaders)
-        assertNull(request.body)
+        assertNull(request.requestBody)
         assertNull(request.params)
     }
 
@@ -23,14 +23,14 @@ class NetworkRequestTest {
             url = "https://api.example.com",
             method = HttpMethod.POST,
             requestHeaders = mapOf("Authorization" to "Bearer token"),
-            body = "request body",
+            requestBody = "request body",
             params = mapOf("key" to "value")
         )
 
         assertEquals("https://api.example.com", request.url)
         assertEquals(HttpMethod.POST, request.method)
         assertEquals(mapOf("Authorization" to "Bearer token"), request.requestHeaders)
-        assertEquals("request body", request.body)
+        assertEquals("request body", request.requestBody)
         assertEquals(mapOf("key" to "value"), request.params)
     }
 

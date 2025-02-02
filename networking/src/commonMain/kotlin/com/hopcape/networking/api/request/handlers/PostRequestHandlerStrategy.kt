@@ -2,14 +2,15 @@ package com.hopcape.networking.api.request.handlers
 
 import com.hopcape.networking.api.request.NetworkRequest
 import com.hopcape.networking.api.request.strategy.RequestHandlingStrategy
-import com.hopcape.networking.api.utils.safeApiCall
 import io.ktor.client.HttpClient
 import io.ktor.client.request.header
 import io.ktor.client.request.post
+import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
+import com.hopcape.networking.api.utils.safeApiCall
 import kotlin.reflect.KClass
 
 /**
@@ -64,6 +65,11 @@ internal class PostRequestHandlerStrategy(
                             url {
                                 parameters.append(key, value)
                             }
+                        }
+
+                        // Add body
+                        requestBody?.let {
+                            setBody(it)
                         }
                     }.bodyAsText()
                     // Deserialize the response to the requested type
