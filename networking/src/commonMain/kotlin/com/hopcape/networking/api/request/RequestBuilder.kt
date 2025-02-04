@@ -72,7 +72,7 @@ class RequestBuilder {
      * @param body The body to be included in the request.
      * @return The updated `RequestBuilder` instance.
      */
-    fun setBody(body: String): RequestBuilder {
+    fun setBody(body: Any): RequestBuilder {
         request = request.copy(requestBody = body)
         return this
     }
