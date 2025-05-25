@@ -22,15 +22,22 @@ kotlin {
             }
         }
     }
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
+
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    sourceSets {
+        iosX64()
+        iosArm64()
         iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "Networking"
-            isStatic = true
+
+        sourceSets {
+            val commonMain by getting
+
+            iosMain.dependencies {
+                implementation(libs.ktor.client.darwin)
+            }
         }
     }
 
@@ -75,7 +82,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.aumaidkh",
         artifactId = "networking-client",
-        version = "1.0.0-BETA_02"
+        version = "1.0.0-BETA_03"
     )
 
     pom{
