@@ -10,15 +10,12 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.kotlinSerialization)
 }
-
 kotlin {
     androidTarget {
-        publishLibraryVariants("debug","release")
+        publishLibraryVariants("release")
         compilations.all {
             compileTaskProvider.configure {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_1_8)
-                }
+                compilerOptions.jvmTarget.set(JvmTarget.JVM_1_8)
             }
         }
     }
@@ -28,30 +25,35 @@ kotlin {
     iosSimulatorArm64()
 
     sourceSets {
-        iosX64()
-        iosArm64()
-        iosSimulatorArm64()
+        val commonMain by getting
+        val commonTest by getting
 
-        sourceSets {
-            val commonMain by getting
+        val androidMain by getting
+        val androidUnitTest by getting
 
-            iosMain.dependencies {
-                implementation(libs.ktor.client.darwin)
-            }
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+
+        val iosMain by creating {
+            dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
         }
-    }
 
-    sourceSets {
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+
         commonMain.dependencies {
             api(libs.bundles.ktor)
             api(libs.ktor.client.content.negotiation)
             api(libs.kotlin.serialization)
         }
+
         androidMain.dependencies {
             implementation(libs.ktor.client.android)
-        }
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
         }
 
         commonTest.dependencies {
@@ -61,8 +63,8 @@ kotlin {
             implementation(libs.kotlinx.serializtion)
         }
     }
-
 }
+
 
 
 
@@ -82,7 +84,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.aumaidkh",
         artifactId = "networking-client",
-        version = "1.0.0-BETA_03"
+        version = "1.0.0-BETA_04"
     )
 
     pom{
