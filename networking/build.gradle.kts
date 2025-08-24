@@ -10,41 +10,50 @@ plugins {
     alias(libs.plugins.dokka)
     alias(libs.plugins.kotlinSerialization)
 }
-
 kotlin {
     androidTarget {
-        publishLibraryVariants("debug","release")
+        publishLibraryVariants("release")
         compilations.all {
             compileTaskProvider.configure {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_1_8)
-                }
+                compilerOptions.jvmTarget.set(JvmTarget.JVM_1_8)
             }
         }
     }
-    
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "Networking"
-            isStatic = true
-        }
-    }
+
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
+        val commonMain by getting
+        val commonTest by getting
+
+        val androidMain by getting
+        val androidUnitTest by getting
+
+        val iosX64Main by getting
+        val iosArm64Main by getting
+        val iosSimulatorArm64Main by getting
+
+        val iosMain by creating {
+            dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
+        }
+
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
+        }
+
         commonMain.dependencies {
             api(libs.bundles.ktor)
             api(libs.ktor.client.content.negotiation)
             api(libs.kotlin.serialization)
         }
+
         androidMain.dependencies {
             implementation(libs.ktor.client.android)
-        }
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
         }
 
         commonTest.dependencies {
@@ -54,8 +63,8 @@ kotlin {
             implementation(libs.kotlinx.serializtion)
         }
     }
-
 }
+
 
 
 
@@ -75,7 +84,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.aumaidkh",
         artifactId = "networking-client",
-        version = "1.0.0-BETA_01"
+        version = "1.0.0-BETA_06"
     )
 
     pom{
@@ -110,4 +119,20 @@ mavenPublishing {
 
     // Enable gpg signing for all publications
     signAllPublications()
+}
+
+// Add local Maven publishing
+publishing {
+    publications {
+        create<MavenPublication>("local") {
+            from(components["kotlin"])
+            groupId = "io.github.aumaidkh"
+            artifactId = "networking-client"
+            version = "1.0.0-BETA_06"
+        }
+    }
+    
+    repositories {
+        mavenLocal()
+    }
 }

@@ -7,7 +7,7 @@ import com.hopcape.networking.api.request.methods.HttpMethod
  * A builder class to help construct a `NetworkRequest` object with optional configurations.
  *
  * This class provides a convenient way to set different properties of a `NetworkRequest` such as the URL,
- * HTTP method, headers, and body. It uses a fluent interface to allow chaining of methods, making it easy
+ * HTTP method, headers, body, and files. It uses a fluent interface to allow chaining of methods, making it easy
  * to build a customized `NetworkRequest`.
  *
  * ## How it Works:
@@ -15,15 +15,21 @@ import com.hopcape.networking.api.request.methods.HttpMethod
  * - Use `setMethod()` to set the HTTP method (e.g., `GET`, `POST`).
  * - Use `setHeaders()` to set any headers for the request.
  * - Use `setBody()` to specify the request body if needed.
+ * - Use `setFiles()` to specify files to be uploaded if needed.
+ * - Use `setParams()` to specify query parameters if needed.
  * - Finally, use `build()` to retrieve the constructed `NetworkRequest`.
  *
  * ## Example Usage:
  * ```kotlin
  * val request = com.hopcape.networking.api.request.RequestBuilder()
  *     .setUrl(Url("https://api.example.com"))
- *     .setMethod(HttpMethod.GET)
+ *     .setMethod(HttpMethod.POST)
  *     .setHeaders(mapOf("Authorization" to "Bearer token"))
  *     .setBody("request body")
+ *     .setParams(mapOf("filter" to "active"))
+ *     .setFiles(listOf(
+ *         FileUpload("image.jpg", "image/jpeg", imageBytes)
+ *     ))
  *     .build()
  * ```
  *
@@ -72,8 +78,30 @@ class RequestBuilder {
      * @param body The body to be included in the request.
      * @return The updated `RequestBuilder` instance.
      */
-    fun setBody(body: String): RequestBuilder {
+    fun setBody(body: Any): RequestBuilder {
         request = request.copy(requestBody = body)
+        return this
+    }
+
+    /**
+     * Sets the files to be uploaded with the network request.
+     *
+     * @param files The list of files to be uploaded in the request.
+     * @return The updated `RequestBuilder` instance.
+     */
+    fun setFiles(files: List<FileUpload>): RequestBuilder {
+        request = request.copy(files = files)
+        return this
+    }
+
+    /**
+     * Sets the query parameters for the network request.
+     *
+     * @param params The query parameters to be included in the request URL.
+     * @return The updated `RequestBuilder` instance.
+     */
+    fun setParams(params: Map<String, String>): RequestBuilder {
+        request = request.copy(params = params)
         return this
     }
 

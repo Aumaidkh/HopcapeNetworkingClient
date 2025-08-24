@@ -10,11 +10,12 @@ import kotlin.reflect.KClass
  *
  * This class is an implementation of [NetworkingClient] that facilitates making HTTP network
  * requests using **Ktor**. It utilizes a **RequestHandlerFactory** to determine the appropriate
- * request strategy based on the **HTTP method**.
+ * request strategy based on the **HTTP method** and request content.
  *
  * ## 🔹 How It Works
  * 1. The `makeRequest` function constructs a **NetworkRequest** using the provided `requestBuilder` lambda.
- * 2. It determines the appropriate **request handling strategy** using [RequestHandlerFactory].
+ * 2. It determines the appropriate **request handling strategy** using [RequestHandlerFactory] by analyzing
+ *    both the HTTP method and request content (e.g., checking for file uploads).
  * 3. The request is executed, and the response is deserialized into the specified type [T].
  * 4. The result is returned inside a `Result<T>` wrapper.
  *
@@ -32,6 +33,17 @@ import kotlin.reflect.KClass
  *     }
  * }
  *
+ * suspend fun uploadProfilePicture(imageBytes: ByteArray): Result<UserResponse> {
+ *     return client.makeRequest(UserResponse::class) {
+ *         url = "https://api.example.com/user/profile"
+ *         method = HttpMethod.POST
+ *         setBody(mapOf("userId" to "123"))
+ *         setFiles(listOf(
+ *             FileUpload("profile.jpg", "image/jpeg", imageBytes)
+ *         ))
+ *     }
+ * }
+ *
  * suspend fun handleResponse() {
  *     when (val result = fetchUser()) {
  *         is Result.Success -> println("User: ${result.value}")
@@ -40,7 +52,7 @@ import kotlin.reflect.KClass
  * }
  * ```
  *
- * @property requestHandlerFactory Factory that creates a request handler based on the HTTP method.
+ * @property requestHandlerFactory Factory that creates a request handler based on the HTTP method and content.
  *
  * @author Murtaza Khursheed
  */
@@ -53,12 +65,13 @@ internal class KtorClientNetworkingClient(
      * the parsed response of type [T] or an error.
      *
      * This method constructs a [NetworkRequest] using the provided [requestBuilder] lambda
-     * and determines the appropriate request handler using the [RequestHandlerFactory].
+     * and determines the appropriate request handler using the [RequestHandlerFactory] by analyzing
+     * both the HTTP method and request content to automatically choose the best handling strategy.
      *
      * @param T The expected response type.
      * @param responseType The [KClass] of the expected response type, used for deserialization.
      * @param requestBuilder A lambda function to configure the request parameters, such as
-     *                       URL, HTTP method, headers, and body.
+     *                       URL, HTTP method, headers, body, and files.
      *
      * @return A [Result] wrapping the response of type [T] if successful, or an error otherwise.
      *
@@ -69,7 +82,10 @@ internal class KtorClientNetworkingClient(
         requestBuilder: RequestBuilder.() -> NetworkRequest
     ): Result<T> {
         val newRequestBuilder = RequestBuilder()
-        return requestHandlerFactory.create(newRequestBuilder.requestBuilder().method)
-            .handleRequest(newRequestBuilder.requestBuilder(), responseType)
+        val networkRequest = newRequestBuilder.requestBuilder()
+        
+        // Use the enhanced factory method that can analyze request content for file uploads
+        return requestHandlerFactory.create(networkRequest.method, networkRequest)
+            .handleRequest(networkRequest, responseType)
     }
 }
