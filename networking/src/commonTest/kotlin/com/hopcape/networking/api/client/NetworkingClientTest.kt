@@ -47,7 +47,7 @@ class KtorClientNetworkingClientTest {
         }.build()
 
         every {
-            requestHandlerFactory.create(any())
+            requestHandlerFactory.create(any(), any())
         } returns requestHandlingStrategy
 
         everySuspend {
@@ -81,7 +81,7 @@ class KtorClientNetworkingClientTest {
         }.build()
 
         every {
-            requestHandlerFactory.create(any())
+            requestHandlerFactory.create(any(), any())
         } returns requestHandlingStrategy
 
         everySuspend {

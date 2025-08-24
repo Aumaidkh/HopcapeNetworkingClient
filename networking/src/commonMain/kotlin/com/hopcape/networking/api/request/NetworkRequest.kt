@@ -6,13 +6,14 @@ import com.hopcape.networking.api.request.methods.HttpMethod
  * Data class representing a network request.
  *
  * This class encapsulates all the necessary details required to make an HTTP request. It supports various
- * HTTP methods (e.g., GET, POST) and allows customization of headers, query parameters, and request bodies.
+ * HTTP methods (e.g., GET, POST) and allows customization of headers, query parameters, request bodies, and file uploads.
  * The class is designed to be flexible and reusable across different types of network requests.
  *
  * ## Key Features:
- * - Encapsulates the URL, HTTP method, headers, body, and query parameters in a single object.
+ * - Encapsulates the URL, HTTP method, headers, body, query parameters, and files in a single object.
  * - Provides default values for optional properties to simplify usage in common scenarios.
  * - Supports serialization-friendly objects as the request body, making it compatible with Kotlinx Serialization.
+ * - Supports file uploads for multipart/form-data requests while maintaining backward compatibility.
  *
  * ## Example Usage:
  * ```kotlin
@@ -21,7 +22,11 @@ import com.hopcape.networking.api.request.methods.HttpMethod
  *     method = HttpMethod.POST,
  *     requestHeaders = mapOf("Authorization" to "Bearer token"),
  *     requestBody = mapOf("key" to "value"),
- *     params = mapOf("filter" to "active")
+ *     params = mapOf("filter" to "active"),
+ *     files = listOf(
+ *         FileUpload("image.jpg", "image/jpeg", imageBytes),
+ *         FileUpload("document.pdf", "application/pdf", pdfBytes)
+ *     )
  * )
  * ```
  *
@@ -113,4 +118,23 @@ data class NetworkRequest(
      * Defaults to `null`, meaning no query parameters are included by default.
      */
     val params: Map<String, String>? = null,
+
+    /**
+     * An optional list of files to be uploaded with the request.
+     *
+     * This property allows for file uploads in multipart/form-data requests. Files can be of any type including
+     * images, videos, audio, documents, etc. When files are provided, the request will automatically be sent
+     * as multipart/form-data.
+     *
+     * ### Example:
+     * ```kotlin
+     * val files = listOf(
+     *     FileUpload("profile.jpg", "image/jpeg", imageBytes),
+     *     FileUpload("document.pdf", "application/pdf", pdfBytes)
+     * )
+     * ```
+     *
+     * Defaults to `null`, meaning no files are included by default.
+     */
+    val files: List<FileUpload>? = null,
 )

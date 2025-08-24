@@ -44,7 +44,7 @@ jobs:
   publish:
     if: github.event_name == 'push'
     needs: [unit-test]
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4

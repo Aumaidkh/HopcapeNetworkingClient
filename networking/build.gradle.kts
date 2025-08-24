@@ -84,7 +84,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.aumaidkh",
         artifactId = "networking-client",
-        version = "1.0.0-BETA_04"
+        version = "1.0.0-BETA_06"
     )
 
     pom{
@@ -119,4 +119,20 @@ mavenPublishing {
 
     // Enable gpg signing for all publications
     signAllPublications()
+}
+
+// Add local Maven publishing
+publishing {
+    publications {
+        create<MavenPublication>("local") {
+            from(components["kotlin"])
+            groupId = "io.github.aumaidkh"
+            artifactId = "networking-client"
+            version = "1.0.0-BETA_06"
+        }
+    }
+    
+    repositories {
+        mavenLocal()
+    }
 }
