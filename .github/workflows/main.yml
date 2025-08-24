@@ -70,8 +70,22 @@ jobs:
           # Set appropriate permissions for the keyring
           chmod 600 $HOME/my_secring.gpg
 
-      - name: Publish to maven
-        run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache
+      - name: Verify publications
+        run: |
+          echo "Available publications:"
+          ./gradlew :networking:tasks --group="publishing" | grep "Publication"
+          
+      - name: Publish all variants to Maven Central
+        run: |
+          # Explicitly publish all iOS variants
+          ./gradlew publishKotlinMultiplatformPublicationToMavenCentralRepository --no-configuration-cache
+          ./gradlew publishIosX64PublicationToMavenCentralRepository --no-configuration-cache  
+          ./gradlew publishIosArm64PublicationToMavenCentralRepository --no-configuration-cache
+          ./gradlew publishIosSimulatorArm64PublicationToMavenCentralRepository --no-configuration-cache
+          ./gradlew publishAndroidReleasePublicationToMavenCentralRepository --no-configuration-cache
+          
+      - name: Release to Maven Central  
+        run: ./gradlew releaseRepository --no-configuration-cache
 
   documentation:
     runs-on: ubuntu-latest
